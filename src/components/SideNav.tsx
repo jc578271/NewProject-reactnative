@@ -2,6 +2,7 @@
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, Animated, Platform, StatusBar} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import styled from 'styled-components/native';
 import {
   IC_ADDCOLLECTION,

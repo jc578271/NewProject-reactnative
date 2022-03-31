@@ -13,7 +13,7 @@ const Collections = ({route, navigation}: any) => {
       <Container>
         <Text>Collection</Text>
       </Container>
-      <CollectionFooter />
+      {/*<CollectionFooter />*/}
     </>
   );
 };

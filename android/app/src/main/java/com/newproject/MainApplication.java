@@ -2,6 +2,7 @@ package com.newproject;
 
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;

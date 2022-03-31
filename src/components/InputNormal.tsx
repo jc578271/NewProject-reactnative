@@ -1,7 +1,7 @@
 // @ts-ignore
 import React, {memo, useCallback} from 'react';
-import styled from "styled-components/native";
-import {TextInputProps} from "react-native";
+import styled from 'styled-components/native';
+import {TextInputProps} from 'react-native';
 
 const Container = styled.View`
   flex: 1;
@@ -17,28 +17,31 @@ const STextInput = styled.TextInput`
   flex: 1;
   font-weight: 400;
   font-size: 15px;
-  line-height: 22px;
-`
+`;
 
 interface Props extends TextInputProps {
-    title: string,
-    keyName: string,
-    onChangeValue: (keyName: string, value: string) => void
+  title: string;
+  keyName: string;
+  onChangeValue: (keyName: string, value: string) => void;
 }
 
 export const InputNormal = memo(function InputNormal(props: Props) {
-    const {title, keyName, onChangeValue, ...restProps} = props;
+  const {title, keyName, onChangeValue, ...restProps} = props;
 
-    const onChangeText = useCallback((val: string) => {
-        onChangeValue(keyName, val)
-    }, [onChangeValue, keyName])
+  const onChangeText = useCallback(
+    (val: string) => {
+      onChangeValue(keyName, val);
+    },
+    [onChangeValue, keyName],
+  );
 
-    return (
-        <Container>
-            <STextInput {...restProps}
-                        placeholder={title}
-                        onChangeText={onChangeText}
-            />
-        </Container>
-    )
-})
+  return (
+    <Container>
+      <STextInput
+        {...restProps}
+        placeholder={title}
+        onChangeText={onChangeText}
+      />
+    </Container>
+  );
+});

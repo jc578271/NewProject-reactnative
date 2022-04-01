@@ -17,7 +17,13 @@ export interface RawCollection {
   list: [];
 }
 export interface RawAuth {
-  userId: string;
-  username: string;
-  career: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  organization: string;
+  phones: string[];
+  emails: string[];
+  addresses: string[];
+  birthday: number[];
+  avatar: string;
 }

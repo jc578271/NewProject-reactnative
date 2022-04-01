@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import {IC_LOGO, IC_SMALLLOGO, IMG_HOMEBG} from '../assets';
 import {useDispatch} from 'react-redux';
 import {loginAction} from '../actions';
-import {getStatusBarHeight} from 'react-native-iphone-x-helper';
+import {statusBarHeight} from '../utils/styles';
 
 interface Props {
   navigation: any;
@@ -16,9 +16,15 @@ const LoginScreen = ({navigation}: Props) => {
   const loginOnPress = useCallback(async () => {
     await dispatch(
       loginAction({
-        userId: '123',
-        username: 'Nguyen Le Hoang',
-        career: 'Mobile Dev',
+        id: '1',
+        firstName: 'Nguyen',
+        lastName: 'Le Hoang',
+        organization: '',
+        phones: ['0988313832'],
+        emails: [],
+        addresses: [],
+        birthday: [],
+        avatar: '',
       }),
     );
     navigation.navigate('TabStack');
@@ -60,7 +66,7 @@ const Container = styled.View`
   background-color: #ffffff;
   display: flex;
   flex: 1;
-  padding-top: ${getStatusBarHeight()}px;
+  padding-top: ${statusBarHeight}px;
 `;
 const Section1 = styled.View`
   align-items: center;

@@ -12,22 +12,13 @@ interface Props extends TextInputProps {
   keyName: string;
   list: string[];
   config: any;
-  inputRef: React.MutableRefObject<any>;
   setParams: (prev: any) => void;
   setConfig: (prev: any) => void;
 }
 
 export const InputWithArray = memo(function InputWithArray(props: Props) {
-  const {
-    title,
-    keyName,
-    list,
-    config,
-    inputRef,
-    setParams,
-    setConfig,
-    ...restProps
-  } = props;
+  const {title, keyName, list, config, setParams, setConfig, ...restProps} =
+    props;
 
   const infoDeleteOnPress = useCallback((index: number, keyName: string) => {
     setParams(prev => {
@@ -68,7 +59,6 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
       }));
       return {...prev, [keyName]: newList};
     });
-    inputRef[keyName]?.focus();
   }, []);
 
   const onDateConfirm = useCallback(
@@ -78,7 +68,7 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
         birthday: {...prev.birthday, isEditing: false},
       }));
       setParams(prev => {
-        let newList = prev.birthday;
+        let newList = [...prev.birthday];
         newList[index] = moment(date).valueOf();
         return {...prev, birthday: newList};
       });
@@ -118,7 +108,6 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
             {(keyName != 'birthday' && isEditing && id == index) ||
             list[index] == '' ? (
               <EditTextInput
-                ref={view => (inputRef[keyName] = view)}
                 autoFocus={true}
                 keyboardType={typeKeyboard}
                 placeholder={`add ${keyName}`}

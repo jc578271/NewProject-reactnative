@@ -1,24 +1,15 @@
 // @ts-ignore
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
-import {Alert, Platform, StatusBar} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Alert, Platform} from 'react-native';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
-import {
-  IC_BACK,
-  IC_CALL,
-  IC_EDITPROFILEIMG,
-  IC_EMAIL,
-  IC_FACETIME,
-  IC_MESSAGE,
-  IMG_DEFAULTPROFILE,
-} from '../assets';
+import {IC_BACK, IC_CALL, IC_EDITPROFILEIMG, IC_EMAIL, IC_FACETIME, IC_MESSAGE, IMG_DEFAULTPROFILE,} from '../assets';
 import {useContacts} from '../store';
 import {deleteContactAction} from '../actions';
 import {RawContact} from '../types';
-import {StatusBarSection} from '../components/Header';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {statusBarHeight} from '../utils/styles';
 
 const featureItems = [
   {icon: IC_CALL, text: 'Call', typeInfo: 'phones'},
@@ -47,7 +38,6 @@ const FeatureItem = ({
 const DetailContact = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
-  const insets = useSafeAreaInsets();
   const contacts = useContacts();
   const dispatch = useDispatch();
 
@@ -106,13 +96,8 @@ const DetailContact = () => {
 
   return (
     <>
-      <StatusBarSection
-        height={Platform.OS == 'ios' ? insets.top : StatusBar.currentHeight}
-      >
-        <BackgroundColor />
-      </StatusBarSection>
       <Container>
-        <Section1>
+        <Section1 platform={Platform.OS}>
           <BackgroundColor />
           <HeaderSection>
             <BackBtn onPress={() => navigation.goBack()}>
@@ -130,7 +115,7 @@ const DetailContact = () => {
                     ? {uri: itemContact.avatar}
                     : IMG_DEFAULTPROFILE
                 }
-                style={itemContact?.avatar && {width: 100, height: 100}}
+                isHasAvatar={!!itemContact?.avatar}
               />
               <CamIcon source={IC_EDITPROFILEIMG} />
             </ProfileImgSection>
@@ -176,8 +161,8 @@ const Container = styled.View`
   display: flex;
   height: 100%;
 `;
-const Section1 = styled.View`
-  padding: 0 16px;
+const Section1 = styled.View<{platform?: string}>`
+  padding: ${statusBarHeight}px 16px 0 16px;
 `;
 const BackgroundColor = styled.View`
   position: absolute;
@@ -220,9 +205,9 @@ const ProfileImgSection = styled.View`
   align-items: center;
   justify-content: center;
 `;
-const ProfileImg = styled(FastImage)`
-  height: 80px;
-  width: 80px;
+const ProfileImg = styled(FastImage)<{isHasAvatar?: boolean}>`
+  height: ${props => (props.isHasAvatar ? 100 : 80)}px;
+  width: ${props => (props.isHasAvatar ? 100 : 80)}px;
   border-radius: 100px;
 `;
 const CamIcon = styled.Image`

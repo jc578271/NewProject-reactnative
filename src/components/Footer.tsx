@@ -1,10 +1,10 @@
 // @ts-ignore
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {BackHandler, Keyboard, Platform, ToastAndroid} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import {IC_ADDBTN, IC_HISTORY, IC_LIST, IMG_NAVBG} from '../assets';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import {bottomSpaceHeight} from '../utils/styles';
 
 const labelIcons = {
   ContactScreen: [IC_LIST, 'Danh Bạ'],
@@ -12,7 +12,6 @@ const labelIcons = {
 };
 
 const Footer = ({state, descriptors, navigation, tabRoute, mainRoute}: any) => {
-  const insets = useSafeAreaInsets();
   const [isShown, setShown] = useState(false);
   const [exitApp, setExitApp] = useState(0);
   useEffect(() => {
@@ -79,24 +78,18 @@ const Footer = ({state, descriptors, navigation, tabRoute, mainRoute}: any) => {
     (!isShown || Platform.OS == 'ios') && (
       <>
         <Container>
-          <WrapBtn>
-            <NavBgSection>
-              <BgSth />
-              <NavBg source={IMG_NAVBG} />
-              <BgSth />
-            </NavBgSection>
-
-            <AddBtn onPress={() => navigation.navigate('AddContact')}>
-              <AddImg resizeMode="contain" source={IC_ADDBTN} />
-            </AddBtn>
-          </WrapBtn>
+          <NavBgSection>
+            <BgSth />
+            <NavBg source={IMG_NAVBG} />
+            <BgSth />
+          </NavBgSection>
           {itemRender(descriptors[contactRoute.key].route.name, 0)}
-          <Sth />
+          <AddBtn onPress={() => navigation.navigate('AddContact')}>
+            <AddImg resizeMode="contain" source={IC_ADDBTN} />
+          </AddBtn>
           {itemRender(descriptors[historyRoute.key].route.name, 1)}
         </Container>
-        <FooterSection
-          height={Platform.OS == 'ios' ? insets.bottom + 10 : 10}
-        />
+        <FooterSection />
       </>
     )
   );
@@ -122,25 +115,12 @@ const ItemBtn = styled.TouchableOpacity`
   align-self: center;
   justify-content: center;
 `;
-
-const WrapBtn = styled.View`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -100px;
-  bottom: 0;
-  display: flex;
-`;
-const Sth = styled.View`
-  width: 85px;
-`;
 const AddBtn = styled.TouchableOpacity`
   width: 85px;
   height: 85px;
-  align-self: center;
+  margin-bottom: 16px;
 `;
 const AddImg = styled.Image`
-  align-self: center;
   width: 100%;
   height: 100%;
 `;
@@ -174,7 +154,7 @@ const ItemText = styled.Text<{isFocused?: boolean}>`
   color: ${props => (props.isFocused ? 'white' : '#DADADA')};
 `;
 
-export const FooterSection = styled.View<{height?: number}>`
+export const FooterSection = styled.View`
   background-color: #f2a54a;
-  height: ${props => props.height}px;
+  height: ${bottomSpaceHeight}px;
 `;

@@ -1,7 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RawAuth} from '../types';
 
-const initAuth: RawAuth = {userId: '', username: '', career: ''};
+const initAuth: RawAuth = {
+  id: '',
+  firstName: '',
+  lastName: '',
+  organization: '',
+  phones: [],
+  emails: [],
+  addresses: [],
+  birthday: [],
+  avatar: ''
+};
 
 export const auth = createSlice({
   name: 'authReducer',

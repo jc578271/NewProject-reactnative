@@ -1,8 +1,6 @@
 // @ts-ignore
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
-import {Alert, Animated, Platform, StatusBar} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {getStatusBarHeight} from 'react-native-iphone-x-helper';
+import {Alert, Animated, Platform} from 'react-native';
 import styled from 'styled-components/native';
 import {
   IC_ADDCOLLECTION,
@@ -17,12 +15,12 @@ import {useCollections} from '../store';
 import moment from 'moment';
 import {useDispatch} from 'react-redux';
 import {deleteCollectionAction, updateCollectionAction} from '../actions';
+import {statusBarHeight} from '../utils/styles';
 
 const SideNav = ({navigation}: any) => {
   const [isExpanded, setIsExpand] = useState(true);
   const animation = useRef(new Animated.ValueXY({x: 0, y: 0})).current;
   const [listHeight, setListHeight] = useState(0);
-  const insets = useSafeAreaInsets();
   const collectionsStore = useCollections();
   const [collections, setCollections] = useState<RawCollection[]>([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -122,70 +120,64 @@ const SideNav = ({navigation}: any) => {
     [isEditing, collections],
   );
 
-  return (
-    <>
-      <StatusBarSection
-        height={Platform.OS == 'ios' ? insets.top : StatusBar.currentHeight}
-      />
-      <Container>
-        <ProfileSection>
-          <ProfileImg source={IMG_PROFILE} />
-          <TextSection>
-            <NameText>Nguyen Le Hoang</NameText>
-            <SubText>Hello</SubText>
-          </TextSection>
-        </ProfileSection>
-        <AddCollectionSection>
-          <AddBtn onPress={onAddPress}>
-            <AddImgBtn source={IC_ADDCOLLECTION} />
-          </AddBtn>
-          <AddTitle>New collection</AddTitle>
-        </AddCollectionSection>
-        <DropSection>
-          <DropBtn onPress={() => setIsExpand(!isExpanded)}>
-            <DropImgBtn
-              style={{transform: [{scaleY: isExpanded ? 1 : -1}]}}
-              source={IC_DROP}
-            />
-          </DropBtn>
-          <DropText>Collection</DropText>
-          <DropEditBtn onPress={onSaveEditPress}>
-            <DropEditText>{isEditing ? 'Save' : 'Edit'}</DropEditText>
-          </DropEditBtn>
-        </DropSection>
+  const goToProfile = useCallback(() => {
+    navigation.navigate('UserProfileScreen');
+  }, []);
 
-        <ListSection>
-          <Animated.View
-            onLayout={e => setListHeight(e.nativeEvent.layout.height)}
-            style={[animation.getLayout()]}
-          >
-            {collections.map((collection, key) =>
-              isEditing
-                ? itemInputRender(collection, key)
-                : itemRender(collection, key),
-            )}
-          </Animated.View>
-        </ListSection>
-      </Container>
-    </>
+  return (
+    <Container>
+      <ProfileSection onPress={goToProfile}>
+        <ProfileImg source={IMG_PROFILE} />
+        <TextSection>
+          <NameText>Nguyen Le Hoang</NameText>
+          <SubText>Hello</SubText>
+        </TextSection>
+      </ProfileSection>
+      <AddCollectionSection>
+        <AddBtn onPress={onAddPress}>
+          <AddImgBtn source={IC_ADDCOLLECTION} />
+        </AddBtn>
+        <AddTitle>New collection</AddTitle>
+      </AddCollectionSection>
+      <DropSection>
+        <DropBtn onPress={() => setIsExpand(!isExpanded)}>
+          <DropImgBtn
+            style={{transform: [{scaleY: isExpanded ? 1 : -1}]}}
+            source={IC_DROP}
+          />
+        </DropBtn>
+        <DropText>Collection</DropText>
+        <DropEditBtn onPress={onSaveEditPress}>
+          <DropEditText>{isEditing ? 'Save' : 'Edit'}</DropEditText>
+        </DropEditBtn>
+      </DropSection>
+
+      <ListSection>
+        <Animated.View
+          onLayout={e => setListHeight(e.nativeEvent.layout.height)}
+          style={[animation.getLayout()]}
+        >
+          {collections.map((collection, key) =>
+            isEditing
+              ? itemInputRender(collection, key)
+              : itemRender(collection, key),
+          )}
+        </Animated.View>
+      </ListSection>
+    </Container>
   );
 };
 
 export default memo(SideNav);
 
-const StatusBarSection = styled.View<{height?: string | number}>`
-  background-color: #f2a54a;
-  height: ${props => props.height}px;
-`;
-
 const Container = styled.View`
   display: flex;
   flex: auto;
 `;
-const ProfileSection = styled.View`
+const ProfileSection = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
-  padding: 5px 20px 12px 20px;
+  padding: ${statusBarHeight}px 20px 12px 20px;
   background-color: #f2a54a;
   align-items: center;
 `;

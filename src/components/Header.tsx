@@ -1,26 +1,26 @@
 // @ts-ignore
 import React, {memo, useCallback} from 'react';
-import {Platform, StatusBar} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {StatusBar} from 'react-native';
 import styled from 'styled-components/native';
 import {IC_CAM, IC_MENU} from '../assets';
+import {statusBarHeight} from '../utils/styles';
 
 const Header = ({route, navigation}: any) => {
-  const insets = useSafeAreaInsets();
   const menuOnPress = useCallback(() => {
     navigation.openDrawer();
   }, []);
+
+  const camOnPress = useCallback(() => {
+    navigation.navigate('CameraScreen');
+  }, []);
+
   return (
     <>
-      <StatusBarSection
-        height={Platform.OS == 'ios' ? insets.top : StatusBar.currentHeight}
-      >
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle="dark-content"
-        />
-      </StatusBarSection>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
 
       <Container>
         <MenuBtn onPress={menuOnPress}>
@@ -29,7 +29,7 @@ const Header = ({route, navigation}: any) => {
         <Section1>
           <Title>{route.params?.title || route.name}</Title>
         </Section1>
-        <CamBtn>
+        <CamBtn onPress={camOnPress}>
           <CamImg source={IC_CAM} />
         </CamBtn>
       </Container>
@@ -48,7 +48,7 @@ const Container = styled.View`
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
-  padding: 10px 16px;
+  padding: ${statusBarHeight}px 16px 10px 16px;
   justify-content: center;
   align-items: center;
 `;

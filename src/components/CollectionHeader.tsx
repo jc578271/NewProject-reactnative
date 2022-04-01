@@ -1,15 +1,12 @@
 import * as React from 'react';
 import {memo, useCallback, useEffect, useState} from 'react';
-import {Platform, StatusBar} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import {IC_BACK} from '../assets';
-import {StatusBarSection} from './Header';
 import {useCollections} from '../store';
 import {RawCollection} from '../types';
+import {statusBarHeight} from '../utils/styles';
 
 const CollectionHeader = ({routeParent, navigation}) => {
-  const insets = useSafeAreaInsets();
   const collections = useCollections();
   const [itemCollection, setItemCollection] = useState<RawCollection>({
     id: '',
@@ -25,21 +22,16 @@ const CollectionHeader = ({routeParent, navigation}) => {
     navigation.goBack();
   }, []);
   return (
-    <>
-      <StatusBarSection
-        height={Platform.OS == 'ios' ? insets.top : StatusBar.currentHeight}
-      />
-      <Container>
-        <BackBtn onPress={onPressBack}>
-          <BackIc source={IC_BACK} />
-        </BackBtn>
-        <TitleSection>
-          <TitleText>{itemCollection?.title}</TitleText>
-          <TitleSubText>{itemCollection?.list.length} members</TitleSubText>
-        </TitleSection>
-        <Sth />
-      </Container>
-    </>
+    <Container>
+      <BackBtn onPress={onPressBack}>
+        <BackIc source={IC_BACK} />
+      </BackBtn>
+      <TitleSection>
+        <TitleText>{itemCollection?.title}</TitleText>
+        <TitleSubText>{itemCollection?.list.length} members</TitleSubText>
+      </TitleSection>
+      <Sth />
+    </Container>
   );
 };
 
@@ -49,7 +41,7 @@ const Container = styled.View`
   background-color: #ffffff;
   flex-direction: row;
   align-items: center;
-  padding: 0 16px;
+  padding: ${statusBarHeight}px 16px 0 16px;
   border-bottom-width: 1px;
   border-bottom-color: rgba(0, 0, 0, 0.1); ;
 `;

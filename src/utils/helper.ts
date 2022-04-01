@@ -1,4 +1,4 @@
-import {RawContact} from './../types';
+import {RawContact} from '../types';
 // import {setQueryContactAction} from "../actions/contact";
 import {Dispatch} from '@reduxjs/toolkit';
 
@@ -12,8 +12,8 @@ export const groupedData = (db: RawContact[]) => {
       firstCharOfLastname.toLocaleLowerCase(),
     ).toUpperCase();
     if (/^[0-9]+$/.test(normalizeChar)) {
-      let temp = result['Digit'];
-      result['Digit'] = temp ? [...temp, item] : [item];
+      let temp = result['#'];
+      result['#'] = temp ? [...temp, item] : [item];
     } else {
       let temp = result[normalizeChar];
       result[normalizeChar] = temp ? [...temp, item] : [item];
@@ -34,7 +34,7 @@ export const groupedData = (db: RawContact[]) => {
       return obj;
     }, {});
 
-  if (result['Digit']) sortedResult = {Digit: result['Digit'], ...sortedResult};
+  if (result['#']) sortedResult = {'#': result['#'], ...sortedResult};
   return sortedResult;
 };
 

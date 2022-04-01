@@ -16,7 +16,7 @@ import {useDrawerStatus} from '@react-navigation/drawer';
 import {useDispatch} from 'react-redux';
 
 const chars = [
-  'Digit',
+  '#',
   'A',
   'B',
   'C',
@@ -128,10 +128,10 @@ const ContactScreen = ({navigation}: any) => {
         <ProfileImgSection>
           <ProfileImg
             source={avatar ? {uri: avatar} : IMG_DEFAULTPROFILE}
-            style={avatar && {width: 40, height: 40}}
+            avatar={avatar}
           />
         </ProfileImgSection>
-        <InfoSection style={{borderTopWidth: key == 0 ? 0 : 0.5}}>
+        <InfoSection isHasKey={key == 0}>
           <ProfileName>{fullName}</ProfileName>
           <ProfileNumber>{phones[0]}</ProfileNumber>
         </InfoSection>
@@ -162,13 +162,15 @@ const ContactScreen = ({navigation}: any) => {
           {groupByCharRender()}
           <Sth />
         </ScrollContent>
-        <SideCharSection>
-          {chars.map((char, key) => (
-            <SideCharBtn key={key} onPress={() => onCharPress(char)}>
-              <SideCharText isDrawerOpen={isDrawerOpen}>{char}</SideCharText>
-            </SideCharBtn>
-          ))}
-        </SideCharSection>
+        <SideCharWrap>
+          <SideCharSection>
+            {chars.map((char, key) => (
+              <SideCharBtn key={key} onPress={() => onCharPress(char)}>
+                <SideCharText isDrawerOpen={isDrawerOpen}>{char}</SideCharText>
+              </SideCharBtn>
+            ))}
+          </SideCharSection>
+        </SideCharWrap>
       </Container>
     </KeyBoardView>
   );
@@ -246,15 +248,16 @@ const ProfileImgSection = styled.View`
   align-items: center;
   justify-content: center;
 `;
-const ProfileImg = styled(FastImage)`
-  height: 30px;
-  width: 30px;
+const ProfileImg = styled(FastImage)<{avatar?: string}>`
+  height: ${props => (props.avatar ? 40 : 30)}px;
+  width: ${props => (props.avatar ? 40 : 30)}px;
   border-radius: 100px;
 `;
-const InfoSection = styled.View`
+const InfoSection = styled.View<{isHasKey?: boolean}>`
   margin: 0 16px;
   padding-top: 15px;
   border-color: #bdbdbd;
+  border-top-width: ${props => (props.isHasKey ? 0 : 0.5)}px;
   flex: auto;
 `;
 const ProfileName = styled.Text`
@@ -273,15 +276,19 @@ const ProfileNumber = styled.Text`
 const Sth = styled.View`
   height: 70px;
 `;
-const SideCharSection = styled.View`
+const SideCharWrap = styled.View`
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 0;
+  bottom: 55px;
+  justify-content: center;
 `;
-const SideCharBtn = styled.TouchableOpacity``;
+const SideCharSection = styled.View``;
+const SideCharBtn = styled.TouchableOpacity`
+  margin-bottom: 1.5px;
+`;
 const SideCharText = styled.Text<{isDrawerOpen?: boolean}>`
   font-size: 13px;
-  line-height: 22px;
   text-align: right;
   color: ${props => (!props.isDrawerOpen ? '#F2A54A' : '#BDBDBD')};
 `;

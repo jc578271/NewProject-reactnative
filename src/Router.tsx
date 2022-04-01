@@ -18,6 +18,8 @@ import Collections from './screens/Collections';
 import AddEditContact from './screens/AddEditContact';
 import DetailContact from './screens/DetailContact';
 import {useAuth} from './store';
+import CameraScreen from './screens/CameraScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,15 +46,17 @@ const MainStack = ({route}) => {
   const auth = useAuth();
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {!auth?.userId ? (
+      {!auth?.id ? (
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
       ) : null}
       <Stack.Group screenOptions={{presentation: 'modal'}}>
         <Stack.Screen name="TabStack">
           {props => <TabStack {...props} mainRoute={route} />}
         </Stack.Screen>
+        <Stack.Screen name="CameraScreen" component={CameraScreen} />
         <Stack.Screen name="AddContact" component={AddEditContact} />
       </Stack.Group>
+      <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
       <Stack.Screen name="Collections" component={Collections} />
       <Stack.Screen name="DetailContact" component={DetailContact} />
       <Stack.Screen name="EditContact" component={AddEditContact} />

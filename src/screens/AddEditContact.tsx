@@ -1,7 +1,6 @@
 // @ts-ignore
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
-import {KeyboardAvoidingView, Platform, StatusBar} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {KeyboardAvoidingView, Platform} from 'react-native';
 import styled from 'styled-components/native';
 // @ts-ignore
 import moment from 'moment';
@@ -13,14 +12,13 @@ import {useContacts} from '../store';
 import {updateContactAction} from '../actions';
 import {useDispatch} from 'react-redux';
 import {toastConfig} from '../components/BaseToast';
-import {StatusBarSection} from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import {InputNormal} from '../components/InputNormal';
 import {InputWithArray} from '../components/InputWithArray';
 import {nonAccentVietnamese} from '../utils/helper';
+import {statusBarHeight} from '../utils/styles';
 
 const AddItemContact = ({navigation, route}) => {
-  const insets = useSafeAreaInsets();
   const [params, setParams] = useState({
     id: '',
     firstName: '',
@@ -57,16 +55,16 @@ const AddItemContact = ({navigation, route}) => {
   const dispatch = useDispatch();
   const contacts = useContacts();
   const [isMounted, setMounted] = useState(false);
-  let ref = useRef<any>({}).current;
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
+    console.log(route.params?.data);
     if (isMounted && route.params?.id) {
       let itemContact = contacts.byKey[route.params.id];
       let {phones, emails, addresses, birthday} = itemContact;
-      setParams(prev => {
+      return setParams(prev => {
         return {
           ...prev,
           ...itemContact,
@@ -74,6 +72,15 @@ const AddItemContact = ({navigation, route}) => {
           emails: [...emails],
           addresses: [...addresses],
           birthday: [...birthday],
+        };
+      });
+    }
+
+    if (route.params?.data) {
+      return setParams(prev => {
+        return {
+          ...prev,
+          ...route.params?.data,
         };
       });
     }
@@ -193,9 +200,6 @@ const AddItemContact = ({navigation, route}) => {
       behavior={Platform.OS == 'ios' ? 'padding' : null}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 50 : 0}
     >
-      <StatusBarSection
-        height={Platform.OS == 'ios' ? insets.top : StatusBar.currentHeight}
-      />
       <HeaderSection>
         <CancelBtn onPress={() => restoreState()}>
           <CancelText>Cancel</CancelText>
@@ -236,7 +240,6 @@ const AddItemContact = ({navigation, route}) => {
 
         <InputWithArray
           keyName={'phones'}
-          inputRef={ref}
           list={params.phones}
           config={inputConfig.phones}
           setParams={setParams}
@@ -245,7 +248,6 @@ const AddItemContact = ({navigation, route}) => {
         />
         <InputWithArray
           keyName={'emails'}
-          inputRef={ref}
           list={params.emails}
           config={inputConfig.emails}
           setParams={setParams}
@@ -254,7 +256,6 @@ const AddItemContact = ({navigation, route}) => {
         />
         <InputWithArray
           keyName={'addresses'}
-          inputRef={ref}
           list={params.addresses}
           config={inputConfig.addresses}
           setParams={setParams}
@@ -263,7 +264,6 @@ const AddItemContact = ({navigation, route}) => {
         />
         <InputWithArray
           keyName={'birthday'}
-          inputRef={ref}
           list={params.birthday}
           config={inputConfig.birthday}
           setParams={setParams}
@@ -289,7 +289,7 @@ const Container = styled.ScrollView`
 `;
 const HeaderSection = styled.View`
   background-color: #ffffff;
-  padding: 0 16px;
+  padding: ${statusBarHeight}px 16px 0 16px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -309,7 +309,7 @@ const DoneText = styled.Text`
   text-align: center;
   color: #f2a54a;
 `;
-const ProfileImgSection = styled.View`
+const ProfileImgSection = styled.View`1001
   margin-top: 12px;
   width: 100px;
   height: 100px;

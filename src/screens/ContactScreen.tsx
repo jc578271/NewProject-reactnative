@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import styled from 'styled-components/native';
-import {IC_SEARCH, IMG_DEFAULTPROFILE} from '../assets';
+import {IC_SEARCH, IMG_DEFAULT_PROFILE} from '../assets';
 import {useContacts} from '../store';
 import {filterData, groupedData} from '../utils/helper';
 import FastImage from 'react-native-fast-image';
@@ -127,7 +127,7 @@ const ContactScreen = ({navigation}: any) => {
       <Item key={key} onPress={() => itemOnPress(id)}>
         <ProfileImgSection>
           <ProfileImg
-            source={avatar ? {uri: avatar} : IMG_DEFAULTPROFILE}
+            source={avatar ? {uri: avatar} : IMG_DEFAULT_PROFILE}
             avatar={avatar}
           />
         </ProfileImgSection>

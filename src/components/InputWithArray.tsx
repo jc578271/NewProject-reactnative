@@ -2,7 +2,7 @@
 import React, {memo, useCallback} from 'react';
 import styled from 'styled-components/native';
 import {TextInputProps} from 'react-native';
-import {IC_GREENADD, IC_REDDELETE} from '../assets';
+import {IC_GREEN_ADD, IC_RED_DELETE} from '../assets';
 // @ts-ignore
 import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -112,7 +112,7 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
         return (
           <EditSection key={index}>
             <DeleteBtn onPress={() => infoDeleteOnPress(index, keyName)}>
-              <DeleteIc source={IC_REDDELETE} />
+              <DeleteIc source={IC_RED_DELETE} />
             </DeleteBtn>
             {(keyName != 'birthday' && isEditing && id == index) ||
             list[index] == '' ? (
@@ -139,7 +139,7 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
       {(keyName != 'birthday' || list.length == 0) && (
         <AddGroup onPress={() => addInfoOnPress(keyName)}>
           <AddBtn>
-            <AddIc source={IC_GREENADD} />
+            <AddIc source={IC_GREEN_ADD} />
           </AddBtn>
           <AddText>{title}</AddText>
         </AddGroup>

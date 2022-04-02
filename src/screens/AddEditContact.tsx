@@ -7,7 +7,7 @@ import moment from 'moment';
 import ImageResizer from 'react-native-image-resizer';
 import Toast, {ToastShowParams} from 'react-native-toast-message';
 import * as ImagePicker from 'react-native-image-picker';
-import {IC_EDITPROFILEIMG, IMG_DEFAULTPROFILE} from '../assets';
+import {IC_EDIT_PROFILE_IMG, IMG_DEFAULT_PROFILE} from '../assets';
 import {useContacts} from '../store';
 import {updateContactAction} from '../actions';
 import {useDispatch} from 'react-redux';
@@ -207,11 +207,11 @@ const AddItemContact = ({navigation, route}) => {
       <Container keyboardShouldPersistTaps="handled">
         <ProfileImgSection>
           <ProfileImg
-            source={params.avatar ? {uri: params.avatar} : IMG_DEFAULTPROFILE}
+            source={params.avatar ? {uri: params.avatar} : IMG_DEFAULT_PROFILE}
             avatar={params.avatar}
           />
           <CamBtn onPress={camOnPress}>
-            <CamIcon source={IC_EDITPROFILEIMG} />
+            <CamIcon source={IC_EDIT_PROFILE_IMG} />
           </CamBtn>
         </ProfileImgSection>
 

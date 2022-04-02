@@ -3,10 +3,10 @@ import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, Animated, Platform} from 'react-native';
 import styled from 'styled-components/native';
 import {
-  IC_ADDCOLLECTION,
+  IC_ADD_COLLECTION,
   IC_DROP,
-  IC_ITEMCOLLECTION,
-  IC_REDDELETE,
+  IC_ITEM_COLLECTION,
+  IC_RED_DELETE,
   IMG_PROFILE,
 } from '../assets';
 import {RawCollection} from '../types';
@@ -96,7 +96,7 @@ const SideNav = ({navigation}: any) => {
         onPress={() => itemOnPress({id})}
         onLongPress={() => setIsEditing(true)}
       >
-        <ItemIc source={IC_ITEMCOLLECTION} />
+        <ItemIc source={IC_ITEM_COLLECTION} />
         <ItemText>{title}</ItemText>
       </ItemSection>
     ),
@@ -106,14 +106,14 @@ const SideNav = ({navigation}: any) => {
   const itemInputRender = useCallback(
     ({id, title}, key) => (
       <ItemInputSection topPadding={Platform.OS == 'ios' ? 14 : 8} key={key}>
-        <ItemIc source={IC_ITEMCOLLECTION} />
+        <ItemIc source={IC_ITEM_COLLECTION} />
         <ItemInput
           placeholder="input collection"
           value={title}
           onChangeText={text => onInputChange(text, id)}
         />
         <DeleteBtn onPress={() => onDeletePress(id, title)}>
-          <DeleteIc source={IC_REDDELETE} />
+          <DeleteIc source={IC_RED_DELETE} />
         </DeleteBtn>
       </ItemInputSection>
     ),
@@ -135,7 +135,7 @@ const SideNav = ({navigation}: any) => {
       </ProfileSection>
       <AddCollectionSection>
         <AddBtn onPress={onAddPress}>
-          <AddImgBtn source={IC_ADDCOLLECTION} />
+          <AddImgBtn source={IC_ADD_COLLECTION} />
         </AddBtn>
         <AddTitle>New collection</AddTitle>
       </AddCollectionSection>

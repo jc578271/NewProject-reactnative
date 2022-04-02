@@ -7,11 +7,11 @@ import FastImage from 'react-native-fast-image';
 import {
   IC_BACK,
   IC_CALL,
-  IC_EDITPROFILEIMG,
+  IC_EDIT_PROFILE_IMG,
   IC_EMAIL,
   IC_FACETIME,
   IC_MESSAGE,
-  IMG_DEFAULTPROFILE,
+  IMG_DEFAULT_PROFILE,
 } from '../assets';
 import {useContacts} from '../store';
 import {deleteContactAction} from '../actions';
@@ -132,11 +132,11 @@ const DetailContact = () => {
                 source={
                   itemContact?.avatar
                     ? {uri: itemContact.avatar}
-                    : IMG_DEFAULTPROFILE
+                    : IMG_DEFAULT_PROFILE
                 }
                 isHasAvatar={!!itemContact?.avatar}
               />
-              <CamIcon source={IC_EDITPROFILEIMG} />
+              <CamIcon source={IC_EDIT_PROFILE_IMG} />
             </ProfileImgSection>
             <ProfileText>
               {itemContact?.firstName} {itemContact?.lastName}

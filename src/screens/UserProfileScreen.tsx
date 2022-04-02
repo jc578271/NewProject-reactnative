@@ -1,7 +1,7 @@
 // @ts-ignore
 import React, {memo, useEffect, useState} from 'react';
 import styled from 'styled-components/native';
-import {IC_BACK, IMG_DEFAULTPROFILE} from '../assets';
+import {IC_BACK, IMG_DEFAULT_PROFILE} from '../assets';
 import {Dimensions, Text} from 'react-native';
 import {statusBarHeight} from '../utils/styles';
 import {useAuth} from '../store';
@@ -31,7 +31,7 @@ const UserProfileScreen = ({navigation}) => {
           <ProfileImg
             isHasAvatar={!!auth?.avatar.length}
             source={
-              auth?.avatar.length ? {uri: auth.avatar} : IMG_DEFAULTPROFILE
+              auth?.avatar.length ? {uri: auth.avatar} : IMG_DEFAULT_PROFILE
             }
           />
         </ProfileImgWrap>

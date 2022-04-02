@@ -2,7 +2,7 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {BackHandler, Keyboard, Platform, ToastAndroid} from 'react-native';
 import styled from 'styled-components/native';
-import {IC_ADDBTN, IC_HISTORY, IC_LIST, IMG_NAVBG} from '../assets';
+import {IC_ADD_BTN, IC_HISTORY, IC_LIST, IMG_NAV_BG} from '../assets';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {bottomSpaceHeight} from '../utils/styles';
 
@@ -80,12 +80,12 @@ const Footer = ({state, descriptors, navigation, tabRoute, mainRoute}: any) => {
         <Container>
           <NavBgSection>
             <BgSth />
-            <NavBg source={IMG_NAVBG} />
+            <NavBg source={IMG_NAV_BG} />
             <BgSth />
           </NavBgSection>
           {itemRender(descriptors[contactRoute.key].route.name, 0)}
           <AddBtn onPress={() => navigation.navigate('AddContact')}>
-            <AddImg resizeMode="contain" source={IC_ADDBTN} />
+            <AddImg resizeMode="contain" source={IC_ADD_BTN} />
           </AddBtn>
           {itemRender(descriptors[historyRoute.key].route.name, 1)}
         </Container>

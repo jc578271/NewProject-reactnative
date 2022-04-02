@@ -1,7 +1,7 @@
 // @ts-ignore
 import React, {memo, useCallback} from 'react';
 import styled from 'styled-components/native';
-import {IC_LOGO, IC_SMALLLOGO, IMG_HOMEBG} from '../assets';
+import {IC_LOGO, IC_SMALL_LOGO, IMG_HOME_BG} from '../assets';
 import {useDispatch} from 'react-redux';
 import {loginAction} from '../actions';
 import {statusBarHeight} from '../utils/styles';
@@ -34,7 +34,7 @@ const LoginScreen = ({navigation}: Props) => {
     <>
       <Container>
         <Section1>
-          <HomeBg resizeMode="contain" source={IMG_HOMEBG} />
+          <HomeBg resizeMode="contain" source={IMG_HOME_BG} />
           <LogoAppIcon source={IC_LOGO} />
         </Section1>
         <Section2>
@@ -43,7 +43,7 @@ const LoginScreen = ({navigation}: Props) => {
             {`Giải pháp quản lý công việc\n& dự án toàn diện cho doanh nghiệp 4.0`}
           </SubTitle>
           <SmallLogoSection>
-            <SmallLogoIcon source={IC_SMALLLOGO} />
+            <SmallLogoIcon source={IC_SMALL_LOGO} />
           </SmallLogoSection>
         </Section2>
         <Section3>

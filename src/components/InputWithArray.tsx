@@ -20,17 +20,20 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
   const {title, keyName, list, config, setParams, setConfig, ...restProps} =
     props;
 
-  const infoDeleteOnPress = useCallback((index: number, keyName: string) => {
-    setParams(prev => {
-      let newList = [...prev[keyName]];
-      newList.splice(index, 1);
-      setConfig(editingPrev => ({
-        ...editingPrev,
-        [keyName]: {...editingPrev[keyName], id: newList.indexOf('')},
-      }));
-      return {...prev, [keyName]: newList};
-    });
-  }, []);
+  const infoDeleteOnPress = useCallback(
+    (index: number, keyName: string) => {
+      setParams(prev => {
+        let newList = [...prev[keyName]];
+        newList.splice(index, 1);
+        setConfig(editingPrev => ({
+          ...editingPrev,
+          [keyName]: {...editingPrev[keyName], id: newList.indexOf('')},
+        }));
+        return {...prev, [keyName]: newList};
+      });
+    },
+    [config, keyName, list],
+  );
 
   const infoOnChange = useCallback(
     (index: number, text: string, keyName: string) => {
@@ -40,26 +43,29 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
         return {...prev, [keyName]: newList};
       });
     },
-    [list],
+    [keyName, list],
   );
 
-  const addInfoOnPress = useCallback((keyName: string) => {
-    setParams(prev => {
-      let newList = [...prev[keyName]];
-      if (keyName != 'birthday') {
-        newList.push('');
-      }
-      setConfig(editPrev => ({
-        ...editPrev,
-        [keyName]: {
-          ...editPrev[keyName],
-          id: newList.indexOf(''),
-          isEditing: true,
-        },
-      }));
-      return {...prev, [keyName]: newList};
-    });
-  }, []);
+  const addInfoOnPress = useCallback(
+    (keyName: string) => {
+      setParams(prev => {
+        let newList = [...prev[keyName]];
+        if (keyName != 'birthday') {
+          newList.push('');
+        }
+        setConfig(editPrev => ({
+          ...editPrev,
+          [keyName]: {
+            ...editPrev[keyName],
+            id: newList.indexOf(''),
+            isEditing: true,
+          },
+        }));
+        return {...prev, [keyName]: newList};
+      });
+    },
+    [config, keyName, list],
+  );
 
   const onDateConfirm = useCallback(
     (date, index) => {
@@ -73,7 +79,7 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
         return {...prev, birthday: newList};
       });
     },
-    [config],
+    [config, keyName, list],
   );
 
   const onDateCancel = useCallback(() => {
@@ -83,18 +89,21 @@ export const InputWithArray = memo(function InputWithArray(props: Props) {
         birthday: {...prev.birthday, isEditing: false},
       };
     });
-  }, [config]);
+  }, [config, keyName]);
 
-  const contextOnPress = useCallback((index: number, keyName: string) => {
-    setConfig(prev => ({
-      ...prev,
-      [keyName]: {
-        ...prev[keyName],
-        id: index,
-        isEditing: true,
-      },
-    }));
-  }, []);
+  const contextOnPress = useCallback(
+    (index: number, keyName: string) => {
+      setConfig(prev => ({
+        ...prev,
+        [keyName]: {
+          ...prev[keyName],
+          id: index,
+          isEditing: true,
+        },
+      }));
+    },
+    [config, keyName],
+  );
 
   return (
     <Container isDateInput={keyName == 'birthday' && list.length != 0}>

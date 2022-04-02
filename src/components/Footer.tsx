@@ -68,7 +68,7 @@ const Footer = ({state, descriptors, navigation, tabRoute, mainRoute}: any) => {
         </WrapItem>
       );
     },
-    [state.index],
+    [state.index, navigation],
   );
 
   const contactRoute = state.routes[0];

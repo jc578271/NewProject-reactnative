@@ -60,7 +60,6 @@ const AddItemContact = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
-    console.log(route.params?.data);
     if (isMounted && route.params?.id) {
       let itemContact = contacts.byKey[route.params.id];
       let {phones, emails, addresses, birthday} = itemContact;
@@ -101,29 +100,26 @@ const AddItemContact = ({navigation, route}) => {
   );
 
   const camOnPress = useCallback(() => {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: 'photo',
-        includeBase64: false,
-        includeExtra: true,
-      },
-      res => {
-        if (res.assets) {
-          ImageResizer.createResizedImage(
-            res?.assets[0]?.uri,
-            200,
-            200,
-            'JPEG',
-            100,
-          ).then(response => {
-            setParams(prev => ({
-              ...prev,
-              avatar: res.assets?.length ? response.uri : '',
-            }));
-          });
-        }
-      },
-    );
+    ImagePicker.launchImageLibrary({
+      mediaType: 'photo',
+      includeBase64: false,
+      includeExtra: true,
+    }).then(res => {
+      if (res.assets) {
+        ImageResizer.createResizedImage(
+          res?.assets[0]?.uri,
+          200,
+          200,
+          'JPEG',
+          100,
+        ).then(response => {
+          setParams(prev => ({
+            ...prev,
+            avatar: res.assets?.length ? response.uri : '',
+          }));
+        });
+      }
+    });
   }, [params.avatar]);
 
   const onDone = useCallback(async () => {
@@ -279,12 +275,11 @@ const AddItemContact = ({navigation, route}) => {
 export default memo(AddItemContact);
 
 const KeyBoardView = styled(KeyboardAvoidingView)`
-  flex: auto;
+  flex: 1;
+  background-color: #ffffff;
 `;
 const Container = styled.ScrollView`
-  background-color: #ffffff;
   display: flex;
-  flex: auto;
   padding: 0 16px;
 `;
 const HeaderSection = styled.View`
@@ -309,7 +304,7 @@ const DoneText = styled.Text`
   text-align: center;
   color: #f2a54a;
 `;
-const ProfileImgSection = styled.View`1001
+const ProfileImgSection = styled.View`
   margin-top: 12px;
   width: 100px;
   height: 100px;

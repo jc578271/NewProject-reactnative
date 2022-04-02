@@ -8,11 +8,11 @@ import {statusBarHeight} from '../utils/styles';
 const Header = ({route, navigation}: any) => {
   const menuOnPress = useCallback(() => {
     navigation.openDrawer();
-  }, []);
+  }, [navigation]);
 
   const camOnPress = useCallback(() => {
     navigation.navigate('CameraScreen');
-  }, []);
+  }, [navigation]);
 
   return (
     <>

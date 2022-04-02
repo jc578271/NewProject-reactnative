@@ -1,12 +1,14 @@
 // @ts-ignore
 import React, {memo, useCallback, useRef, useState} from 'react';
+import {Text} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import styled from 'styled-components/native';
 import {IC_BACK} from '../assets';
 import {statusBarHeight} from '../utils/styles';
 import {View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-const CameraScreen = ({navigation, route}) => {
+const CameraScreen = ({navigation}) => {
   const [isScanned, setScan] = useState(false);
   let ref = useRef<QRCodeScanner | null>(null).current;
 
@@ -18,7 +20,8 @@ const CameraScreen = ({navigation, route}) => {
 
   const rescanOnPress = useCallback(() => {
     ref?.reactivate();
-  }, []);
+  }, [ref]);
+
   return (
     <Container>
       <HeaderSection>
@@ -30,6 +33,7 @@ const CameraScreen = ({navigation, route}) => {
         </EditBtn>
       </HeaderSection>
       <Section2>
+        <Text>Scan to add contact</Text>
         <QRView>
           <QRCodeScanner
             ref={view => (ref = view)}
@@ -77,10 +81,12 @@ const EditText = styled.Text`
   color: #f2a54a;
 `;
 const Section2 = styled.View`
+  align-items: center;
   justify-content: center;
   flex: auto;
 `;
 const QRView = styled.View`
+  margin-top: 10px;
   overflow: hidden;
   width: 200px;
   height: 200px;

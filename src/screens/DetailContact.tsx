@@ -1,10 +1,18 @@
 // @ts-ignore
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
-import {Alert, Platform} from 'react-native';
+import {Alert, Linking, Platform} from 'react-native';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
-import {IC_BACK, IC_CALL, IC_EDITPROFILEIMG, IC_EMAIL, IC_FACETIME, IC_MESSAGE, IMG_DEFAULTPROFILE,} from '../assets';
+import {
+  IC_BACK,
+  IC_CALL,
+  IC_EDITPROFILEIMG,
+  IC_EMAIL,
+  IC_FACETIME,
+  IC_MESSAGE,
+  IMG_DEFAULTPROFILE,
+} from '../assets';
 import {useContacts} from '../store';
 import {deleteContactAction} from '../actions';
 import {RawContact} from '../types';
@@ -14,7 +22,7 @@ import {statusBarHeight} from '../utils/styles';
 const featureItems = [
   {icon: IC_CALL, text: 'Call', typeInfo: 'phones'},
   {icon: IC_MESSAGE, text: 'Message', typeInfo: 'phones'},
-  {icon: IC_FACETIME, text: 'Call', typeInfo: 'phones'},
+  {icon: IC_FACETIME, text: 'Facetime', typeInfo: 'phones'},
   {icon: IC_EMAIL, text: 'Email', typeInfo: 'emails'},
 ];
 
@@ -22,12 +30,14 @@ const FeatureItem = ({
   icon,
   text,
   available,
+  onItemPress,
 }: {
   icon: any;
   text: string;
   available: boolean;
+  onItemPress: (text: string) => void;
 }) => (
-  <ItemFeature>
+  <ItemFeature disabled={!available} onPress={() => onItemPress(text)}>
     <ItemFeatureIcBg available={available}>
       <ItemFeatureIc available={available} text={text} source={icon} />
     </ItemFeatureIcBg>
@@ -94,6 +104,15 @@ const DetailContact = () => {
     navigation.navigate('EditContact', {id: contactId});
   }, [contactId]);
 
+  const onItemPress = useCallback((keyName: string) => {
+    if (keyName == 'Call') {
+      return Linking.openURL(`tel:${itemContact.phones[0]}`);
+    }
+    if (keyName == 'Message') {
+      return Linking.openURL(`sms:${itemContact.phones[0]}`);
+    }
+  }, []);
+
   return (
     <>
       <Container>
@@ -127,6 +146,7 @@ const DetailContact = () => {
           <FeatureSection>
             {featureItems.map((item, key) => (
               <FeatureItem
+                onItemPress={onItemPress}
                 available={itemContact && itemContact[item.typeInfo]?.length}
                 icon={item.icon}
                 text={item.text}

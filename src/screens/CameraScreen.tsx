@@ -20,7 +20,7 @@ const CameraScreen = ({navigation}) => {
 
   const rescanOnPress = useCallback(() => {
     ref?.reactivate();
-  }, [ref]);
+  }, [ref, isScanned]);
 
   return (
     <Container>
